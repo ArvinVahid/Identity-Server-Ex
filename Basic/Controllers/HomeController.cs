@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Basic.CustomPolicyProvider;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Basic.Models;
@@ -36,6 +37,18 @@ namespace Basic.Controllers
         {
             return View("Secret");
         }
+        
+        [SecurityLevelAttribute(7)]
+        public IActionResult SecretLevel()
+        {
+            return View("Secret");
+        }
+        
+        [SecurityLevelAttribute(10)]
+        public IActionResult SecretHigherLevel()
+        {
+            return View("Secret");
+        }
 
         [AllowAnonymous]
         public IActionResult Authenticate()
@@ -45,6 +58,7 @@ namespace Basic.Controllers
                 new Claim(ClaimTypes.Name, "Bob"),
                 new Claim(ClaimTypes.Email, "Bob@fmail.com"),
                 new Claim(ClaimTypes.DateOfBirth, "2001/11/11"),
+                new Claim(DynamicPolicies.SecurityLevel, "7"),
                 new Claim("Grandma.Says", "Very nice boy")
             };
 

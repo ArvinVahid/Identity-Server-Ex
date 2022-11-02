@@ -5,6 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Basic.AuthorizationRequirements;
 using Basic.Controllers;
+using Basic.CustomPolicyProvider;
+using Basic.Transformer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,8 +51,11 @@ namespace Basic
                     });
             });
 
+            services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, SecurityLevelHandler>();
             services.AddScoped<IAuthorizationHandler, CustomRequireClaim.CustomRequireClaimHandler>();
             services.AddScoped<IAuthorizationHandler, CookieJarAuthorizationHandler>();
+            services.AddScoped<IClaimsTransformation, ClaimTransformation>();
 
             services.AddControllersWithViews(config =>
             {
