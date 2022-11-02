@@ -37,6 +37,7 @@ namespace Basic.Controllers
             return View("Secret");
         }
 
+        [AllowAnonymous]
         public IActionResult Authenticate()
         {
             var grandmaClaims = new List<Claim>()
@@ -56,11 +57,23 @@ namespace Basic.Controllers
             var grandmaIdentity = new ClaimsIdentity(grandmaClaims, "Grandma Identity");
             var licenseIdentity = new ClaimsIdentity(licenseClaims, "Government");
 
-            var userPrincipal = new ClaimsPrincipal(new[] {grandmaIdentity, licenseIdentity});
+            var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity, licenseIdentity });
 
             HttpContext.SignInAsync(userPrincipal);
-            
+
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DoStuff([FromServices] IAuthorizationService _authorizationService)
+        {
+            var authResult = await _authorizationService.AuthorizeAsync(HttpContext.User, "Claim.DoB");
+
+            if (authResult.Succeeded)
+            {
+                return View("Index");
+            }
+            
+            return View("Index");
         }
 
         public IActionResult Privacy()

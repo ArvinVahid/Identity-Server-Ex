@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Basic.AuthorizationRequirements;
+using Basic.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +27,6 @@ namespace Basic
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
             services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", config =>
                 {
@@ -35,18 +36,10 @@ namespace Basic
 
             services.AddAuthorization(config =>
             {
-                /*var defaultAuthBuilder = new AuthorizationPolicyBuilder();
-                var defaultAuthPolicy = defaultAuthBuilder
-                    .RequireAuthenticatedUser()
-                    .RequireClaim(ClaimTypes.DateOfBirth)   
-                    .Build();
-
-                config.DefaultPolicy = defaultAuthPolicy;*/
-
-                /*config.AddPolicy("Claim.DoB", policyBuilder =>
+                config.AddPolicy("Admin", policyBuilder =>
                 {
-                    policyBuilder.RequireClaim(ClaimTypes.DateOfBirth)
-                });*/
+                    policyBuilder.RequireClaim(ClaimTypes.Role, "Admin");
+                });
 
                 config.AddPolicy("Claim.DoB",
                     policyBuilder =>
@@ -56,6 +49,17 @@ namespace Basic
             });
 
             services.AddScoped<IAuthorizationHandler, CustomRequireClaim.CustomRequireClaimHandler>();
+            services.AddScoped<IAuthorizationHandler, CookieJarAuthorizationHandler>();
+
+            services.AddControllersWithViews(config =>
+            {
+                var builder = new AuthorizationPolicyBuilder();
+                var customPolicy = builder.RequireAuthenticatedUser().Build();
+
+                //Global authorization filter over every single action
+                config.Filters.Add(new AuthorizeFilter(customPolicy));
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
