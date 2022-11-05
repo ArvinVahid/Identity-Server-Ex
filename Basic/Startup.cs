@@ -47,7 +47,7 @@ namespace Basic
                 config.AddPolicy("Claim.DoB",
                     policyBuilder =>
                     {
-                        policyBuilder.AddRequirements(new CustomRequireClaim(ClaimTypes.DateOfBirth));
+                        policyBuilder.RequireClaim(ClaimTypes.DateOfBirth);
                     });
             });
 
@@ -63,9 +63,17 @@ namespace Basic
                 var customPolicy = builder.RequireAuthenticatedUser().Build();
 
                 //Global authorization filter over every single action
-                config.Filters.Add(new AuthorizeFilter(customPolicy));
+                /*config.Filters.Add(new AuthorizeFilter(customPolicy));*/
             });
 
+            services.AddRazorPages()
+                .AddRazorPagesOptions(config =>
+                {
+                    config.Conventions.AuthorizePage("/Razor/Secured");
+                    config.Conventions.AuthorizePage("/Razor/Policy", "Admin");
+                    config.Conventions.AuthorizeFolder("/RazorSecured");
+                    config.Conventions.AllowAnonymousToPage("/RazorSecured/Annonymous");
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -91,6 +99,7 @@ namespace Basic
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }

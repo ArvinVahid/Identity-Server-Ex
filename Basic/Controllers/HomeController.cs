@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Basic.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Basic.Controllers
 {
@@ -44,12 +46,11 @@ namespace Basic.Controllers
             return View("Secret");
         }
         
-        [SecurityLevelAttribute(10)]
+        [SecurityLevelAttribute(10)] 
         public IActionResult SecretHigherLevel()
         {
             return View("Secret");
         }
-
         [AllowAnonymous]
         public IActionResult Authenticate()
         {
@@ -58,6 +59,8 @@ namespace Basic.Controllers
                 new Claim(ClaimTypes.Name, "Bob"),
                 new Claim(ClaimTypes.Email, "Bob@fmail.com"),
                 new Claim(ClaimTypes.DateOfBirth, "2001/11/11"),
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Role, "AdminTwo"),
                 new Claim(DynamicPolicies.SecurityLevel, "7"),
                 new Claim("Grandma.Says", "Very nice boy")
             };
