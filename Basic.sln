@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityExample", "Identity
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OAuth", "OAuth", "{A10C4A38-FB89-4BB2-B214-498135787869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{F01CC826-621B-49FE-BA8B-6B578D258AE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{F01CC826-621B-49FE-BA8B-6B578D258AE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{B49A68F2-1DCD-4700-A404-B1C0523A37D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +31,17 @@ Global
 		{F01CC826-621B-49FE-BA8B-6B578D258AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F01CC826-621B-49FE-BA8B-6B578D258AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F01CC826-621B-49FE-BA8B-6B578D258AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B49A68F2-1DCD-4700-A404-B1C0523A37D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49A68F2-1DCD-4700-A404-B1C0523A37D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B49A68F2-1DCD-4700-A404-B1C0523A37D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B49A68F2-1DCD-4700-A404-B1C0523A37D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F01CC826-621B-49FE-BA8B-6B578D258AE0} = {A10C4A38-FB89-4BB2-B214-498135787869}
+		{B49A68F2-1DCD-4700-A404-B1C0523A37D8} = {A10C4A38-FB89-4BB2-B214-498135787869}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6754E0BE-669A-419E-A285-0561498CEA19}
